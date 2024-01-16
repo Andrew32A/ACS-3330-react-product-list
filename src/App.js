@@ -1,23 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+// challenge 7
+import data, {
+  allCategories,
+  categoriesSet,
+  categoriesUnique,
+  categoriesWithCounts,
+  namesAndCategories,
+} from "./data.js";
+
+// challenge 10 (second 10?)
+import CategoryButton from "./CategoryButton";
+import Product from "./Product";
 
 function App() {
+  // challenge 10
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const filteredProducts = data.filter((item) => {
+    return item.category === selectedCategory || selectedCategory === "All";
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Product Data</h1>
+      <h2>Categories as Buttons:</h2>
+      <div className="category-buttons">
+        <button key="All" onClick={() => handleCategoryClick("All")}>
+          All
+        </button>
+        {/* challenge 8 and 9 */}
+        {namesAndCategories.map(({ name, count }) => (
+          <CategoryButton
+            key={name}
+            label={`${name} (${count})`}
+            onClick={() => handleCategoryClick(name)}
+          />
+        ))}
+      </div>
+      <h2>Products:</h2>
+      <ul className="product-list">
+        {filteredProducts.map((product) => (
+          <Product
+            key={product.id}
+            name={product.name}
+            category={product.category}
+            price={product.price}
+          />
+        ))}
+      </ul>
     </div>
   );
 }

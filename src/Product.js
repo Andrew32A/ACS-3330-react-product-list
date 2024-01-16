@@ -3,7 +3,7 @@ import React from "react";
 function Product(props) {
   return (
     <div className="product">
-      <h2>{props.name}</h2>
+      <h1>{props.name}</h1>
       <p>{props.price}</p>
       <p>{props.category}</p>
     </div>

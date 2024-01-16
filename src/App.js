@@ -30,7 +30,16 @@ function App() {
       <h1>Product Data</h1>
       <h2>Categories as Buttons:</h2>
       <div className="category-buttons">
-        <button key="All" onClick={() => handleCategoryClick("All")}>
+        {/* challenge 12 */}
+        <button
+          key="All"
+          onClick={() => handleCategoryClick("All")}
+          className={
+            selectedCategory === "All"
+              ? "category-button active"
+              : "category-button"
+          }
+        >
           All
         </button>
         {/* challenge 8 and 9 */}
@@ -39,6 +48,7 @@ function App() {
             key={name}
             label={`${name} (${count})`}
             onClick={() => handleCategoryClick(name)}
+            active={selectedCategory === name}
           />
         ))}
       </div>

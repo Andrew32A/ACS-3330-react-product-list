@@ -25,6 +25,25 @@ function App() {
     return item.category === selectedCategory || selectedCategory === "All";
   });
 
+  // challenge 13
+  const allPrices = data.reduce((total, product) => {
+    const price = parseFloat(product.price.slice(1));
+    return total + price;
+  }, 0);
+
+  const selectedPrices = filteredProducts.reduce((total, product) => {
+    if (product.category === selectedCategory || selectedCategory === "All") {
+      const price = parseFloat(product.price.slice(1));
+      return total + price;
+    }
+    return total;
+  }, 0);
+
+  const categoryCounts = data.reduce((countMap, product) => {
+    countMap[product.category] = (countMap[product.category] || 0) + 1;
+    return countMap;
+  }, {});
+
   return (
     <div>
       <h1>Product Data</h1>
@@ -49,6 +68,7 @@ function App() {
             label={`${name} (${count})`}
             onClick={() => handleCategoryClick(name)}
             active={selectedCategory === name}
+            count={categoryCounts[name]}
           />
         ))}
       </div>
@@ -60,9 +80,16 @@ function App() {
             name={product.name}
             category={product.category}
             price={product.price}
+            units={product.units}
+            rating={product.rating}
           />
         ))}
       </ul>
+
+      {/* challenge 13 */}
+      <h2>Price Information:</h2>
+      <p>Total Price of All Products: ${allPrices.toFixed(2)}</p>
+      <p>Total Price of Selected Products: ${selectedPrices.toFixed(2)}</p>
     </div>
   );
 }

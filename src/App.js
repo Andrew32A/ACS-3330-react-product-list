@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 // challenge 7
-import data, {
-  allCategories,
-  categoriesSet,
-  categoriesUnique,
-  categoriesWithCounts,
-  namesAndCategories,
-} from "./data.js";
+import data, { namesAndCategories } from "./data.js";
 
 // challenge 10 (second 10?)
 import CategoryButton from "./CategoryButton";
@@ -15,14 +9,34 @@ import Product from "./Product";
 
 function App() {
   // challenge 10
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategories, setSelectedCategories] = useState(["All"]);
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+    // challenge 11 and 14
+    if (category === "All") {
+      setSelectedCategories(["All"]);
+    } else {
+      setSelectedCategories((prevSelectedCategories) => {
+        if (prevSelectedCategories.includes("All")) {
+          return prevSelectedCategories
+            .filter((c) => c !== "All")
+            .concat(category);
+        } else {
+          if (prevSelectedCategories.includes(category)) {
+            return prevSelectedCategories.filter((c) => c !== category);
+          } else {
+            return [...prevSelectedCategories, category];
+          }
+        }
+      });
+    }
   };
 
   const filteredProducts = data.filter((item) => {
-    return item.category === selectedCategory || selectedCategory === "All";
+    return (
+      selectedCategories.includes("All") ||
+      selectedCategories.includes(item.category)
+    );
   });
 
   // challenge 13
@@ -32,7 +46,10 @@ function App() {
   }, 0);
 
   const selectedPrices = filteredProducts.reduce((total, product) => {
-    if (product.category === selectedCategory || selectedCategory === "All") {
+    if (
+      selectedCategories.includes("All") ||
+      selectedCategories.includes(product.category)
+    ) {
       const price = parseFloat(product.price.slice(1));
       return total + price;
     }
@@ -54,7 +71,7 @@ function App() {
           key="All"
           onClick={() => handleCategoryClick("All")}
           className={
-            selectedCategory === "All"
+            selectedCategories.includes("All")
               ? "category-button active"
               : "category-button"
           }
@@ -67,11 +84,12 @@ function App() {
             key={name}
             label={`${name} (${count})`}
             onClick={() => handleCategoryClick(name)}
-            active={selectedCategory === name}
+            active={selectedCategories.includes(name)}
             count={categoryCounts[name]}
           />
         ))}
       </div>
+
       <h2>Products:</h2>
       <ul className="product-list">
         {filteredProducts.map((product) => (

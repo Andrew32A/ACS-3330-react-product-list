@@ -64,3 +64,16 @@ h1 {
 .product p:last-child {
   font-size: 1.5rem;
 }
+
+.price-info-header {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+.total-price {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}

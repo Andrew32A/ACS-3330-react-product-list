@@ -105,9 +105,13 @@ function App() {
       </ul>
 
       {/* challenge 13 */}
-      <h2>Price Information:</h2>
-      <p>Total Price of All Products: ${allPrices.toFixed(2)}</p>
-      <p>Total Price of Selected Products: ${selectedPrices.toFixed(2)}</p>
+      <h2 className="price-info-header">Price Information:</h2>
+      <p className="total-price">
+        Total Price of All Products: ${allPrices.toFixed(2)}
+      </p>
+      <p className="total-price">
+        Total Price of Selected Products: ${selectedPrices.toFixed(2)}
+      </p>
     </div>
   );
 }
